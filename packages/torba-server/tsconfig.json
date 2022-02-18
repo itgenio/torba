@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "allowJs": true,
+    "strict": true,
+    "baseUrl": "./src",
+    "types": ["node", "mocha"],
+    "module": "ESNext",
+    "outDir": "dist",
+    "rootDir": "./",
+    "moduleResolution": "Node",
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src", "__tests__"]
+}

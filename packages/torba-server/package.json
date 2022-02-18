@@ -1,0 +1,75 @@
+{
+  "name": "@itgenio/torba",
+  "version": "0.0.3",
+  "description": "Uploading file service",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "test": "npm run build-tests && mocha",
+    "tsc-check": "tsc --noEmit",
+    "tsc": "tsc --declaration --emitDeclarationOnly",
+    "dev": "concurrently -n watch: -c \"cyan,magenta,blue\" \"npm:watch-*\" --kill-others --restart-tries 3 --restart-after 1000",
+    "prepack": "concurrently \"npm:tsc-check\" \"npm:build-code\" \"npm:tsc\"",
+    "build-tests": "npm run build-tests-code",
+    "build-code": "rimraf dist && cross-env NODE_ENV=production node ./build.js",
+    "build-tests-code": "rimraf dist-tests && cross-env NODE_ENV=production node ./build-tests.js",
+    "watch-tests-code": "rimraf dist-tests && node ./build-tests.js",
+    "watch-code": "rimraf dist && node ./build.js",
+    "watch-tests": "mocha --watch --parallel --watch-files dist-tests/**/*spec.js",
+    "watch-node": "nodemon",
+    "format": "prettier ./src --fix",
+    "docker:build": "npm run build-code && docker build -t asosnovskiy/torba-server:latest -f ./Dockerfile ./dist/",
+    "docker:push": "docker push asosnovskiy/torba-server:latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itgenio/torba.git"
+  },
+  "author": "Alex So",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/itgenio/torba/issues"
+  },
+  "homepage": "https://github.com/itgenio/torba#readme",
+  "nodemonConfig": {
+    "watch": [
+      "dist/"
+    ],
+    "env": {
+      "NODE_ENV": "development"
+    }
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/chai": "^4.3.0",
+    "@types/connect": "^3.4.35",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^17.0.9",
+    "@types/simpl-schema": "^1.12.0",
+    "chai": "^4.3.6",
+    "concurrently": "^7.0.0",
+    "cross-env": "^7.0.3",
+    "esbuild": "^0.14.22",
+    "mocha": "^9.2.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1",
+    "rimraf": "^3.0.2",
+    "tiny-glob": "^0.2.9",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.52.0",
+    "@aws-sdk/s3-request-presigner": "^3.52.0",
+    "@itgenio/torba-client": "^0.0.4",
+    "body-parser": "^1.19.2",
+    "connect": "^3.7.0",
+    "mongodb": "^4.4.0",
+    "nanoid": "^3.3.1",
+    "simpl-schema": "^1.12.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

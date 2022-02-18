@@ -1,0 +1,54 @@
+{
+  "name": "@itgenio/torba-client",
+  "version": "0.0.4",
+  "description": "Create ticket",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "npm run build-tests && mocha",
+    "tsc-check": "tsc --noEmit",
+    "tsc": "tsc --declaration --emitDeclarationOnly",
+    "dev": "concurrently -n watch: -c \"cyan,magenta,blue\" \"npm:watch-*\" --kill-others --restart-tries 3 --restart-after 1000",
+    "prepack": "concurrently \"npm:tsc-check\" \"npm:build-code\" \"npm:tsc\"",
+    "build-tests": "npm run build-tests-code",
+    "build-code": "rimraf dist && cross-env NODE_ENV=production node ./build.js",
+    "build-tests-code": "rimraf dist-tests && cross-env NODE_ENV=production node ./build-tests.js",
+    "watch-tests-code": "rimraf dist-tests && node ./build-tests.js",
+    "watch-code": "rimraf dist && node ./build.js",
+    "watch-tests": "mocha --watch --parallel --watch-files dist-tests/**/*spec.js",
+    "format": "prettier ./src --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itgenio/torba.git"
+  },
+  "author": "Alex So",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/itgenio/torba/issues"
+  },
+  "homepage": "https://github.com/itgenio/torba#readme",
+  "devDependencies": {
+    "@types/chai": "^4.3.0",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^17.0.9",
+    "chai": "^4.3.6",
+    "concurrently": "^7.0.0",
+    "cross-env": "^7.0.3",
+    "esbuild": "^0.14.22",
+    "mocha": "^9.2.0",
+    "prettier": "^2.5.1",
+    "rimraf": "^3.0.2",
+    "tiny-glob": "^0.2.9",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

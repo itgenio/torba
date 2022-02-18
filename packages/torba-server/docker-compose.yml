@@ -1,0 +1,9 @@
+version: '3.1'
+services:
+  torba-server:
+    build:
+      context: build
+      dockerfile: ../Dockerfile
+    restart: always
+    ports:
+      - '3075:3075'
