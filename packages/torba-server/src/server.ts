@@ -1,6 +1,8 @@
 import http from 'http';
 import connect from 'connect';
 import bodyParser from 'body-parser';
+import cors from 'cors';
+import { parse } from 'url';
 import { Settings } from './settings';
 import { inject } from './apiMiddleware';
 import { sendError } from './sendResult';
@@ -10,6 +12,14 @@ import { logger } from './logger';
 const app = connect();
 
 const PORT = process.env.PORT ?? Settings.port ?? 3000;
+
+app.use(cors());
+
+app.use((req, res, next) => {
+  const parsedUrl = parse(req.url ?? '', true);
+  (req as any).query = parsedUrl.query;
+  next();
+});
 
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
