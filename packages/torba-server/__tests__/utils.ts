@@ -2,8 +2,8 @@ import http from 'http';
 
 const url = 'http://localhost:3075/';
 
-export async function makeRequest(p: string = '', data: any = {}) {
-  const targetUrl = url + p;
+export async function makeRequest(method: string, path: string = '', data: any = {}) {
+  const targetUrl = url + path;
 
   console.log(`make request to ${targetUrl}`);
 
@@ -12,8 +12,8 @@ export async function makeRequest(p: string = '', data: any = {}) {
   const options = {
     host: 'localhost',
     port: 3075,
-    path: '/' + p,
-    method: 'POST',
+    path: '/' + path,
+    method,
     headers: {
       'Content-Type': 'application/json',
       'Content-Length': rawData.length,
@@ -26,10 +26,8 @@ export async function makeRequest(p: string = '', data: any = {}) {
         res.setEncoding('utf8');
 
         let body = '';
-        res.on('data', function (chunk) {
-          body += chunk;
-        });
-        res.on('end', function () {
+        res.on('data', chunk => body += chunk);
+        res.on('end', () => {
           try {
             const json = JSON.parse(body);
             resolve(json);
@@ -39,9 +37,7 @@ export async function makeRequest(p: string = '', data: any = {}) {
         });
       });
 
-      req.on('error', error => {
-        reject(error);
-      });
+      req.on('error', error => reject(error));
 
       req.write(rawData);
 
