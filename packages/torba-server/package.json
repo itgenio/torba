@@ -20,8 +20,8 @@
     "watch-tests": "mocha --watch --parallel --watch-files dist-tests/**/*spec.js",
     "watch-node": "nodemon",
     "format": "prettier ./src --fix",
-    "docker:build": "npm run build-code && docker build -t asosnovskiy/torba-server:latest -f ./Dockerfile ./dist/",
-    "docker:push": "docker push asosnovskiy/torba-server:latest"
+    "docker:build": "npm run build-code && docker build -t itgenio2022/torba-server:latest -f ./Dockerfile ./dist/",
+    "docker:push": "docker push itgenio2022/torba-server:latest"
   },
   "repository": {
     "type": "git",
