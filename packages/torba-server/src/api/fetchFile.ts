@@ -12,12 +12,13 @@ const s3Client = new S3Client({
   },
 });
 
-type Params = { bucket: string; key: string };
+type Params = { bucket: string; key: string; range?: string };
 
-export const fetchFile = async ({ bucket, key }: Params) => {
+export const fetchFile = async ({ bucket, key, range }: Params) => {
   const command = new GetObjectCommand({
     Bucket: bucket,
-    Key: decodeURIComponent(key),
+    Key: key,
+    Range: range,
   });
 
   return s3Client.send(command);

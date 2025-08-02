@@ -50,12 +50,34 @@ export function inject(app: Server) {
   app.use('/v1/fetchFile', async function (req, res, next) {
     const query = ((req as any).query ?? {}) as Parameters<typeof fetchFile>[0];
 
-    new SimpleSchema({ bucket: String, key: String, }).validate(query);
+    new SimpleSchema({ bucket: String, key: String }).validate(query);
 
     try {
-      const { Body, ContentType } = await fetchFile(query);
+      const range = req.headers.range;
 
-      res.setHeader('Content-Type', ContentType ?? 'application/octet-stream');
+      const {
+        Body,
+        ContentType,
+        ContentLength,
+        ContentRange,
+        CacheControl,
+        ETag,
+        LastModified,
+        AcceptRanges,
+      } = await fetchFile({ ...query, range });
+
+      res.setHeader('Content-Disposition', `inline; filename="${encodeURIComponent(query.key)}"`);
+      ContentType && res.setHeader('Content-Type', ContentType);
+      CacheControl && res.setHeader('Cache-Control', CacheControl);
+      ContentLength && res.setHeader('Content-Length', ContentLength);
+      AcceptRanges && res.setHeader('Accept-Ranges', AcceptRanges);
+      ContentRange && res.setHeader('Content-Range', ContentRange);
+      ETag && res.setHeader('ETag', ETag);
+      LastModified && res.setHeader('Last-Modified', LastModified.toString());
+
+      if (range) {
+        res.writeHead(206);
+      }
 
       if (Body instanceof Readable) {
         Body.pipe(res);
