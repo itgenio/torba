@@ -20,8 +20,8 @@
     "watch-tests": "mocha --watch --parallel --watch-files dist-tests/**/*spec.js",
     "watch-node": "nodemon",
     "format": "prettier ./src --fix",
-    "docker:build": "npm run build-code && docker build -t asosnovskiy/torba-server:latest -f ./Dockerfile ./dist/",
-    "docker:push": "docker push asosnovskiy/torba-server:latest"
+    "docker:build": "npm run build-code && docker build -t itgenio2022/torba-server:latest -f ./Dockerfile ./dist/",
+    "docker:push": "docker push itgenio2022/torba-server:latest"
   },
   "repository": {
     "type": "git",
@@ -45,6 +45,7 @@
     "@types/body-parser": "^1.19.2",
     "@types/chai": "^4.3.0",
     "@types/connect": "^3.4.35",
+    "@types/cors": "^2.8.19",
     "@types/mocha": "^9.1.0",
     "@types/node": "^17.0.9",
     "@types/simpl-schema": "^1.12.0",
@@ -65,6 +66,7 @@
     "@itgenio/torba-client": "^0.0.4",
     "body-parser": "^1.19.2",
     "connect": "^3.7.0",
+    "cors": "^2.8.5",
     "mongodb": "^4.4.0",
     "nanoid": "^3.3.1",
     "simpl-schema": "^1.12.0"

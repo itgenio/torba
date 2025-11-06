@@ -56,3 +56,34 @@ type Response = {
   };
 };
 ```
+
+#### GET /v1/fetchFile
+
+Query Parameters:
+
+```typescript
+type Query = {
+  bucket: string;
+  key: string;
+};
+```
+
+response:
+
+```typescript
+type Response = {
+  success: true;
+  result: GetObjectCommandOutput; // из @aws-sdk/client-s3
+};
+```
+
+#### PUT /v1/uploadFile
+
+Query Parameters:
+
+```typescript
+type Query = {
+  url: string;
+  ticketJwt: string;
+};
+```

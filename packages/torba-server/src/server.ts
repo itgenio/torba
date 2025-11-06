@@ -1,6 +1,8 @@
 import http from 'http';
 import connect from 'connect';
 import bodyParser from 'body-parser';
+import cors from 'cors';
+import { parse } from 'url';
 import { Settings } from './settings';
 import { inject } from './apiMiddleware';
 import { sendError } from './sendResult';
@@ -10,10 +12,18 @@ import { logger } from './logger';
 const app = connect();
 
 const PORT = process.env.PORT ?? Settings.port ?? 3000;
+const LIMIT = '100mb';
 
-app.use(bodyParser.urlencoded({ extended: false }));
-// parse application/json
-app.use(bodyParser.json());
+app.use(cors());
+
+app.use((req, res, next) => {
+  const parsedUrl = parse(req.url ?? '', true);
+  (req as any).query = parsedUrl.query;
+  next();
+});
+
+app.use(bodyParser.urlencoded({ extended: false, limit: LIMIT }));
+app.use(bodyParser.json({ limit: LIMIT }));
 
 inject(app);
 
