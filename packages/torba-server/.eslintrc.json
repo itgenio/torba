@@ -1,0 +1,145 @@
+{
+  "plugins": ["prettier", "@typescript-eslint", "@itgenio/import"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:prettier/recommended"
+  ],
+  "env": {
+    "node": true,
+    "browser": true,
+    "jquery": true,
+    "es6": true,
+    "mocha": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "allowImportExportEverywhere": true,
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "project": ["./tsconfig.json"]
+  },
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "arrowParens": "avoid"
+      }
+    ],
+    "no-var": "error",
+    "no-console": "off",
+    "prefer-rest-params": "warn",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-this-alias": "off",
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-inferrable-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "require-await": "off", // require disabling by @typescript-eslint
+    "@typescript-eslint/require-await": "warn", // usefull
+    "@typescript-eslint/no-unnecessary-type-assertion": "warn", // usefull,
+    "@typescript-eslint/await-thenable": "warn", // usefull
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-return": "off",
+    "@typescript-eslint/restrict-plus-operands": "off",
+    "@typescript-eslint/no-misused-new": "error",
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/unbound-method": "off",
+    "@typescript-eslint/no-implied-eval": "off", // not met in errors,
+    "@typescript-eslint/no-for-in-array": "off", // not met in errors
+    "@typescript-eslint/member-delimiter-style": [
+      "error",
+      {
+        "multiline": {
+          "delimiter": "semi",
+          "requireLast": true
+        },
+        "singleline": {
+          "delimiter": "semi",
+          "requireLast": false
+        }
+      }
+    ],
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+    "@typescript-eslint/no-unnecessary-type-constraint": "warn",
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        "disallowTypeAnnotations": false
+      }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": ["@material-ui/core", "@itgenio/gkit", "@itgenio/lib"]
+      }
+    ],
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "ImportDeclaration[importKind!='type'][source.value='@itgenio/edik-basic-react']",
+        "message": "Dev dependency. Can import types only"
+      },
+      {
+        "selector": "ImportDeclaration[importKind!='type'][source.value='@itgenio/edik-core']",
+        "message": "Dev dependency. Can import types only"
+      },
+      {
+        "selector": "ImportDeclaration[importKind!='type'][source.value='@itgenio/edik-player-react']",
+        "message": "Dev dependency. Can import types only"
+      },
+      {
+        "selector": "ImportDeclaration[importKind!='type'][source.value='@itgenio/edik-mecanics']",
+        "message": "Dev dependency. Can import types only"
+      }
+    ],
+    "@itgenio/import/order": [
+      "error",
+      {
+        "pathGroups": [
+          {
+            "pattern": "meteor/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@itgenio/**",
+            "group": "external",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "groups": ["builtin", "external", "parent", "sibling", "index"],
+        "alphabetize": {
+          "order": "asc"
+        },
+        "topLevelOnly": true
+      }
+    ]
+  },
+  "overrides": [],
+  "globals": {
+    "Assets": false,
+    "ReactiveVar": false,
+    "Template": false,
+    "console": false,
+    "moment": false,
+    "rSlider": true
+  }
+}
