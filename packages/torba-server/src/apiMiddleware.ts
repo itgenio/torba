@@ -4,10 +4,12 @@ import type { Server } from 'connect';
 import SimpleSchema from 'simpl-schema';
 import { parseTicket, verifyTicket } from '@itgenio/torba-client';
 import { checkApp, fetchFile, generateUrl } from './api';
-import { CustomError } from './customError';
-import { Errors } from './errors';
 import { getApp } from './getApp';
 import { sendResult } from './sendResult';
+
+const normalizeFileKey = (key: string) => {
+  return key.replace(/(\.[^./%\]]+)-(?:\[|%5B)\d+x\d+(?:]|%5D)$/i, '$1');
+};
 
 export function inject(app: Server) {
   app.use('/v1/checkApp', function (req, res) {
@@ -58,7 +60,7 @@ export function inject(app: Server) {
       const { Body, ContentType, ContentLength, ContentRange, CacheControl, ETag, LastModified, AcceptRanges } =
         await fetchFile({ ...query, range });
 
-      res.setHeader('Content-Disposition', `inline; filename="${encodeURIComponent(query.key)}"`);
+      res.setHeader('Content-Disposition', `inline; filename="${encodeURIComponent(normalizeFileKey(query.key))}"`);
       ContentType && res.setHeader('Content-Type', ContentType);
       CacheControl && res.setHeader('Cache-Control', CacheControl);
       ContentLength && res.setHeader('Content-Length', ContentLength);
@@ -90,8 +92,6 @@ export function inject(app: Server) {
       const ticketJwt = query.ticketJwt;
       const ticket = parseTicket(ticketJwt);
       const app = getApp(ticket.app);
-
-      if (!app) throw new CustomError(Errors.APP_NOT_FOUND);
 
       verifyTicket(app.secret, ticketJwt);
 
