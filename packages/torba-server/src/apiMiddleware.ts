@@ -9,6 +9,12 @@ import { getApp } from './getApp';
 import { CustomError } from './customError';
 import { Errors } from './errors';
 
+const normalizeFileKey = (key: string) => {
+  return key
+    .replace(/(\.[^./\]]+)-\[\d+x\d+\]$/, '$1')
+    .replace(/(\.[^./%]+)-%5B\d+x\d+%5D$/i, '$1');
+}
+
 export function inject(app: Server) {
   app.use('/v1/checkApp', function (req, res) {
     const body = ((req as any).body ?? {}) as Parameters<typeof checkApp>[0];
@@ -66,7 +72,7 @@ export function inject(app: Server) {
         AcceptRanges,
       } = await fetchFile({ ...query, range });
 
-      res.setHeader('Content-Disposition', `inline; filename="${encodeURIComponent(query.key)}"`);
+      res.setHeader('Content-Disposition', `inline; filename="${encodeURIComponent(normalizeFileKey(query.key))}"`);
       ContentType && res.setHeader('Content-Type', ContentType);
       CacheControl && res.setHeader('Cache-Control', CacheControl);
       ContentLength && res.setHeader('Content-Length', ContentLength);
