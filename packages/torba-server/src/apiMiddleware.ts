@@ -10,9 +10,7 @@ import { CustomError } from './customError';
 import { Errors } from './errors';
 
 const normalizeFileKey = (key: string) => {
-  return key
-    .replace(/(\.[^./\]]+)-\[\d+x\d+\]$/, '$1')
-    .replace(/(\.[^./%]+)-%5B\d+x\d+%5D$/i, '$1');
+  return key.replace(/(\.[^./%\]]+)-(?:\[|%5B)\d+x\d+(?:\]|%5D)$/i, '$1');
 }
 
 export function inject(app: Server) {
