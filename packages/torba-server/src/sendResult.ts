@@ -1,4 +1,4 @@
-import http from 'http';
+import type http from 'http';
 import { logger } from './logger';
 
 const l = logger.makeLogger('sendResult');
