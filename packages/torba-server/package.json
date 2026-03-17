@@ -1,6 +1,6 @@
 {
   "name": "@itgenio/torba",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Uploading file service",
   "main": "dist/index.js",
   "files": [
