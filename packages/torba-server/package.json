@@ -1,6 +1,6 @@
 {
   "name": "@itgenio/torba",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Uploading file service",
   "main": "dist/index.js",
   "files": [
@@ -20,6 +20,8 @@
     "watch-tests": "mocha --watch --parallel --watch-files dist-tests/**/*spec.js",
     "watch-node": "nodemon",
     "format": "prettier ./src --fix",
+    "lint": "eslint \"./src/**/*.ts\" --cache",
+    "lint:fix": "eslint \"./src/**/*.ts\" --fix --cache",
     "docker:build": "npm run build-code && docker build -t itgenio2022/torba-server:latest -f ./Dockerfile ./dist/",
     "docker:push": "docker push itgenio2022/torba-server:latest"
   },
@@ -42,6 +44,7 @@
     }
   },
   "devDependencies": {
+    "@itgenio/eslint-plugin-import": "^2.20.5",
     "@types/body-parser": "^1.19.2",
     "@types/chai": "^4.3.0",
     "@types/connect": "^3.4.35",
@@ -49,10 +52,15 @@
     "@types/mocha": "^9.1.0",
     "@types/node": "^17.0.9",
     "@types/simpl-schema": "^1.12.0",
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
     "chai": "^4.3.6",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
     "esbuild": "^0.14.22",
+    "eslint": "^7.15.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.2.0",
     "mocha": "^9.2.0",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
@@ -64,6 +72,7 @@
     "@aws-sdk/client-s3": "^3.52.0",
     "@aws-sdk/s3-request-presigner": "^3.52.0",
     "@itgenio/torba-client": "^0.0.4",
+    "@smithy/node-http-handler": "^4.4.5",
     "body-parser": "^1.19.2",
     "connect": "^3.7.0",
     "cors": "^2.8.5",

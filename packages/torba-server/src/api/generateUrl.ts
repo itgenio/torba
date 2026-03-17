@@ -1,12 +1,12 @@
-import { Settings } from '../settings';
-const { urlAlphabet, customAlphabet } = require('nanoid');
-import { Errors } from '../errors';
-import { parseTicket, verifyTicket } from '@itgenio/torba-client';
-import { getFiles } from 'db/collections';
-import { getApp } from '../getApp';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { getFiles } from 'db/collections';
+import { urlAlphabet, customAlphabet } from 'nanoid';
+import { parseTicket, verifyTicket } from '@itgenio/torba-client';
 import { CustomError } from '../customError';
+import { Errors } from '../errors';
+import { getApp } from '../getApp';
+import { Settings } from '../settings';
 
 const nanoidForKey = customAlphabet(urlAlphabet, 21);
 const nanoidObjectId = customAlphabet('0123456789abcdefABCDEF', 24);
@@ -42,7 +42,7 @@ function makeOptions(ext: string = '') {
   } as const;
 }
 
-async function makePutUrl(s3: S3Client, options: ReturnType<typeof makeOptions>, file: FileInfo) {
+async function makePutUrl(options: ReturnType<typeof makeOptions>, file: FileInfo) {
   const params = {
     ...options,
     ACL: 'public-read',
@@ -72,7 +72,7 @@ export async function generateUrl({ file, ticketJwt }: Params) {
 
   const options = makeOptions(ext);
 
-  const putUrl = await makePutUrl(s3Client, options, file);
+  const putUrl = await makePutUrl(options, file);
   const getUrl = `https://${get}/${options.Key}`;
 
   if (!putUrl || !getUrl) {

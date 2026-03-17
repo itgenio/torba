@@ -1,13 +1,13 @@
 import http from 'http';
-import connect from 'connect';
-import bodyParser from 'body-parser';
-import cors from 'cors';
 import { parse } from 'url';
-import { Settings } from './settings';
+import bodyParser from 'body-parser';
+import connect from 'connect';
+import cors from 'cors';
 import { inject } from './apiMiddleware';
-import { sendError } from './sendResult';
 import { Errors } from './errors';
 import { logger } from './logger';
+import { sendError } from './sendResult';
+import { Settings } from './settings';
 
 const app = connect();
 

@@ -1,13 +1,13 @@
-import { Server } from 'connect';
-import SimpleSchema from 'simpl-schema';
-import { checkApp, fetchFile, generateUrl } from './api';
-import { sendResult } from './sendResult';
-import { Readable } from 'stream';
 import https from 'https';
+import { Readable } from 'stream';
+import type { Server } from 'connect';
+import SimpleSchema from 'simpl-schema';
 import { parseTicket, verifyTicket } from '@itgenio/torba-client';
-import { getApp } from './getApp';
+import { checkApp, fetchFile, generateUrl } from './api';
 import { CustomError } from './customError';
 import { Errors } from './errors';
+import { getApp } from './getApp';
+import { sendResult } from './sendResult';
 
 export function inject(app: Server) {
   app.use('/v1/checkApp', function (req, res) {
@@ -55,16 +55,8 @@ export function inject(app: Server) {
     try {
       const range = req.headers.range;
 
-      const {
-        Body,
-        ContentType,
-        ContentLength,
-        ContentRange,
-        CacheControl,
-        ETag,
-        LastModified,
-        AcceptRanges,
-      } = await fetchFile({ ...query, range });
+      const { Body, ContentType, ContentLength, ContentRange, CacheControl, ETag, LastModified, AcceptRanges } =
+        await fetchFile({ ...query, range });
 
       res.setHeader('Content-Disposition', `inline; filename="${encodeURIComponent(query.key)}"`);
       ContentType && res.setHeader('Content-Type', ContentType);
@@ -89,9 +81,9 @@ export function inject(app: Server) {
     }
   });
 
-  app.use('/v1/uploadFile', async function (req, res, next) {
+  app.use('/v1/uploadFile', function (req, res, next) {
     try {
-      const query = ((req as any).query ?? {});
+      const query = (req as any).query ?? {};
 
       new SimpleSchema({ url: String, ticketJwt: String }).validate(query);
 

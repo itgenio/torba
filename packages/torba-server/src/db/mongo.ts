@@ -1,7 +1,8 @@
-import { MongoClient, Db } from 'mongodb';
-import { wait } from '../utils';
-import { Settings } from '../settings';
+import type { Db } from 'mongodb';
+import { MongoClient } from 'mongodb';
 import { logger } from '../logger';
+import { Settings } from '../settings';
+import { wait } from '../utils';
 
 // Replace the uri string with your MongoDB deployment's connection string.
 const uri = process.env.MONGO_URL ?? Settings.mongo?.url;
@@ -27,17 +28,15 @@ const checkCount = 10;
 const checkInterval = 500;
 
 async function checkConnected() {
-  return new Promise<Db>(async (res, rej) => {
-    if (Mongo.database) return res(Mongo.database);
+  if (Mongo.database) return Mongo.database;
 
-    for (let i = 0; i < checkCount; i++) {
-      await wait(checkInterval);
-      logger.info(`check db ${i}`);
-      if (Mongo.database) return res(Mongo.database);
-    }
+  for (let i = 0; i < checkCount; i++) {
+    await wait(checkInterval);
+    logger.info(`check db ${i}`);
+    if (Mongo.database) return Mongo.database;
+  }
 
-    rej('timeout');
-  });
+  throw new Error('MongoDB connection error - timeout');
 }
 
 export { Mongo, run, checkConnected };
