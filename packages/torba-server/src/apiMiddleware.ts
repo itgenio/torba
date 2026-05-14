@@ -50,7 +50,8 @@ export function inject(app: Server) {
   });
 
   app.use('/v1/fetchFile', async function (req, res, next) {
-    const query = ((req as any).query ?? {}) as Parameters<typeof fetchFile>[0];
+    const queryParams = ((req as any).query ?? {}) as Parameters<typeof fetchFile>[0];
+    const query = { bucket: queryParams.bucket, key: queryParams.key };
 
     new SimpleSchema({ bucket: String, key: String }).validate(query);
 
@@ -85,7 +86,8 @@ export function inject(app: Server) {
 
   app.use('/v1/uploadFile', function (req, res, next) {
     try {
-      const query = (req as any).query ?? {};
+      const queryParams = (req as any).query ?? {};
+      const query = { url: queryParams.url, ticketJwt: queryParams.ticketJwt };
 
       new SimpleSchema({ url: String, ticketJwt: String }).validate(query);
 
