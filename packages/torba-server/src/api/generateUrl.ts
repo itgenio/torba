@@ -1,3 +1,4 @@
+import type { PutObjectCommandInput } from '@aws-sdk/client-s3';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { getFiles } from 'db/collections';
@@ -43,7 +44,7 @@ function makeOptions(ext: string = '') {
 }
 
 async function makePutUrl(options: ReturnType<typeof makeOptions>, file: FileInfo) {
-  const params = {
+  const params: PutObjectCommandInput = {
     ...options,
     ACL: 'public-read',
     ContentType: file.type,
